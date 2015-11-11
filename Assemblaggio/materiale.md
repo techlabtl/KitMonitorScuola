@@ -7,7 +7,7 @@ Un kit è composto da:
  * 1 [Sensore pressione sonora] (#pres)
  * 1 [Sensore di luminosità] (#lum)
  * 1 [Sensore di corrente] (#cor)
- * 1 Circuito per il sensore di corrente
+ * 1 [Circuito per il sensore di corrente] (#cir)
  * 1 jack femmina 1/4"
  * 1 Alimentatore da 5V - almeno 1.5 Ampere
  * 1 Basetta in legno
@@ -62,10 +62,23 @@ Sensore che misura il livello di luminosità.
 ### Sensore di corrente <a name="cor"></a>
 ![Alt text](http://www.seeedstudio.com/depot/images/101990062%201.jpg)
 
-
+Amperometro non invasivo in grado di misurare molto bene i carichi resistivi.
 
 **Dove trovarlo**: http://www.seeedstudio.com/depot/Noninvasive-AC-Current-Sensor-25A-max-p-2055.html
 
+### Sensore di corrente <a name="cor"></a>
+![Alt text](http://www.seeedstudio.com/depot/images/101990062%201.jpg)
+
+Amperometro non invasivo in grado di misurare molto bene i carichi resistivi. Putroppo non si interfaccia direttamente con arduino, bisogna creare un piccolo circuito. Spiegato nel [punto successivo](#cir)
+
+**Dove trovarlo**: http://www.seeedstudio.com/depot/Noninvasive-AC-Current-Sensor-25A-max-p-2055.html
+
+### Circuito per sensore di corrente <a name="cor"></a>
+![Alt text](http://www.homautomation.org/wp-content/uploads/2013/09/header2.jpg)
+
+Nel link sottostante è spiegata bene la teoria e la pratica per la realizzazione del circuito.
+
+**Dove trovarlo**: http://www.homautomation.org/2013/09/17/current-monitoring-with-non-invasive-sensor-and-arduino/
 
 
 
