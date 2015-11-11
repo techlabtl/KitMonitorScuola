@@ -17,7 +17,7 @@ Un kit è composto da:
  * 5 connettori groove
  
 
-### Arduino YUN <a name="yun"><\a>
+### Arduino YUN <a name="yun"></a>
 ![Alt text](http://notebookitalia.it/images/stories/arduino/arduino_yun.jpg)
 
 Arduino YUN è un piccolo computerino che ospita una leggera distribuzione di linux; in grado di leggere i valori dei sensori e mandarli ad un sito online in grado di visualizzarli.
