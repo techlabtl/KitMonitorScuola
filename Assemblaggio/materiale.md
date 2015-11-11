@@ -4,9 +4,9 @@ Un kit è composto da:
  * 1 [Grove Base] (#base)
  * 1 [Sensore qualità aria] (#air)
  * 1 [Sensore temperatura e umidità] (#temp)
- * 1 Sensore pressione sonora
- * 1 Sensore di luminosità
- * 1 Sensore di corrente
+ * 1 [Sensore pressione sonora] (#pres)
+ * 1 [Sensore di luminosità] (#lum)
+ * 1 [Sensore di corrente] (#cor)
  * 1 Circuito per il sensore di corrente
  * 1 jack femmina 1/4"
  * 1 Alimentatore da 5V - almeno 1.5 Ampere
@@ -41,9 +41,30 @@ Sensore che misura la presenza di molti inquinanti nell'aria
 ### Sensore di temperatura e umidità <a name="temp"></a>
 ![Alt text](http://www.seeedstudio.com/depot/images/101020019%201.jpg)
 
-Sensore che misura la presenza di molti inquinanti nell'aria
+Sensore di uso comune, al cui interno sono presenti due sonde.
 
 **Dove trovarlo**: http://www.seeedstudio.com/depot/Grove-TemperatureHumidity-Sensor-Pro-p-838.html
+
+### Sensore di pressione sonora <a name="pres"></a>
+![Alt text](http://www.seeedstudio.com/depot/images/101020023%201.jpg)
+
+Sensore che misura il livello di pressione sonora.
+
+**Dove trovarlo**: http://www.seeedstudio.com/depot/Grove-Sound-Sensor-p-752.html
+
+### Sensore di luminosità <a name="lum"></a>
+![Alt text](http://www.seeedstudio.com/depot/images/product/Grove%20Luminance%20Sensor_01.jpg)
+
+Sensore che misura il livello di luminosità.
+
+**Dove trovarlo**: http://www.seeedstudio.com/depot/Grove-Luminance-Sensor-p-1941.html
+
+### Sensore di corrente <a name="cor"></a>
+![Alt text](http://www.seeedstudio.com/depot/images/101990062%201.jpg)
+
+
+
+**Dove trovarlo**: http://www.seeedstudio.com/depot/Noninvasive-AC-Current-Sensor-25A-max-p-2055.html
 
 
 
