@@ -10,6 +10,8 @@ Un kit è composto da:
  * 1 [Circuito per il sensore di corrente] (#cir)
  * [Materiale per collegamenti e struttura] (#mat)
  
+E si presenta così:
+![Alt text](http://snag.gy/t3cSz.jpg)
 
 ### Arduino YUN <a name="yun"></a>
 ![Alt text](http://notebookitalia.it/images/stories/arduino/arduino_yun.jpg)
