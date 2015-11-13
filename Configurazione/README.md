@@ -20,8 +20,8 @@ e poi avviatelo una volta in modo che si configuri correttamente.
 Per utilizzare i sensori serviranno due librerie che ci semplifichino la vita:
 le potete trovare qua:
 
-DHTLib: https://drive.google.com/open?id=0B4KNW3XBN0r0c1QxMjl2dkpQc2c
-Emonlib: https://github.com/openenergymonitor/EmonLib
+* DHTLib: https://drive.google.com/open?id=0B4KNW3XBN0r0c1QxMjl2dkpQc2c
+* Emonlib: https://github.com/openenergymonitor/EmonLib
 
 Per installarle correttamente (basta poco perché Arduino non le riconosca..) dovete:
 * scaricare e scompattarle
@@ -29,8 +29,15 @@ Per installarle correttamente (basta poco perché Arduino non le riconosca..) do
 
 Prima di poterle utilizzare dovrete chiudere e riaprire il software Arduino.
 
-### Fine!
-Adesso siete pronti per scaricare il codice (o copiarlo) ed aprirlo con Arduino.
+### Primo upload nella scheda!
+Adesso siete pronti per scaricare il codice (o copiarlo) ed aprirlo con Arduino. Dopo di che dovrete compiere i seguenti passi
+per poterlo inserire nel microchip interno alla scheda:
+* Selezionare dal menù **Strumenti** la scheda: Arduino YUN
+* Selezionare dal menù **Porta** la scheda Arduino (collegata al PC :)
+* Schiacciare il pulsante tondo con la freccia verso destra!
+ 
+
+**Per capire cosa fa il codice leggete il README.md nella cartella test_sensori**
 
 
 
