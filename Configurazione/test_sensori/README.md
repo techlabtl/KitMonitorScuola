@@ -1,4 +1,4 @@
-### Come usare questo file :)
+### Come usare test_sensori.ino
 
 Come vedrete dalla prime righe di codice ogni sensore va collegato ad un preciso ingresso analogico:
 
