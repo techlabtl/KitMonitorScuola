@@ -8,4 +8,4 @@ L'incisione in questo caso non è una campitura (no engrave), ma semplicemente u
 Per l'incisione con un laser da 60W, usando il software LaserCut 5.2 io ho usato:
 * speed 130
 * power 23
-* power 11
+* corner power 11
