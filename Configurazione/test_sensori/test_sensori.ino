@@ -1,9 +1,13 @@
+/* Codice messo insieme da Paolo Cavagnolo in primavera 2015 */
+/* per il progetto del MIUR: Impariamo a consumare di meno   */
+/* promosso da Nino Fanelli e ispirato da Riccardo Beltramo  */
+
 #include <DHT.h>
 #include <EmonLib.h>                   // Include Emon Library
 
 EnergyMonitor emon1;                   // Create an instance
 
-#define DHT_PIN A3 // what pin we're connected to
+#define DHT_PIN A3 
 #define CT_PIN A4
 #define LIGHT_PIN A2
 #define SOUND_PIN A1
