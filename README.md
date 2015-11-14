@@ -8,28 +8,23 @@ In questa cartella troverai:
  * [Il codice per scaricare i dati da plot.ly e creare stupendi grafici!] (#sec4)
 
 ### Istruzioni per comprare e costruirti da te il kit <a name="sec1"></a>
-La base è il pdf. Mancano ancora i link a tutti gli oggetti da comprare.
+All'interno della cartella **Assemblaggio** è presente la lista di materiale necessaria per la realizzazione del kit. Sono presenti anche tutti i link per gli acquisti da **Arduino.cc** e **SeeedStudio**.
 
-Due parole sugli spagnoli.
+Si sottolinea che la prima scelta è stata quella del kit spagnolo **SmartCitizien**.
 
-Il file della taglio laser!
+Inoltre è presente il file per tagliare a laser la basetta e la copertura; da portare in qualsiasi Fablab o Makerspace. In zona si segnalano:
+* TechLab
+* FabLab Torino
+* FabLab Settimo
 
-Dove trovare viti e vitine.
+Tutti gli altri componenti sono facilmente reperibili in ferramenta.
 
-LINK AL TUTORIAL DELLA PINZA AMPEROMETRICA
 
 ### Il codice da caricare sull'arduino YUN per leggere i sensori e testare il kit <a name="sec2"></a>
-Ho appena montato tutto.
-
-Codice di puro arduino che legge e printa in seriale i dati bellini.
-Spiegazione di come funzionerà la faccenda.
+Una volta assemblato il kit sarà necessario caricare sopra l'arduino il codice necessario per testare i vari sensori. E' possibile comperare svariate tipologie di sensori e, una volta capito il meccanismo illustrato nella cartella **Configurazione, testarli ed utilizzarli.
 
 ### Il tutorial per collegare il KIT alla wifi e mandare i dati a plot.ly <a name="sec3"></a>
-Tutti i vari rimandi a plot.ly e vari tutoria per la YUN.
-Link con i tutorial su come gestire senza morire la YUN.
-Codice definitivo.
+Il passo successivo è quello di collegare il kit ad internet in modo che possa comunicare con il servizio gratuito on-line plot.ly.
+Nella cartella **CollegamentoWifi** sono presenti i link con i tutorial specifici per ogni passaggio e i codici definitivi da caricare sulla scheda.
 
-
-### Il codice per scaricare i dati da plot.ly e creare stupendi grafici! <a name="sec4"></a>
-Questo è ancora tutto da creare
 
