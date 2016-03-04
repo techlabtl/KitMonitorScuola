@@ -98,7 +98,7 @@ void loop()
   echoToCollector(dataString);
 
   jj++;
-  if (jj > 10) {
+  if (jj > 100) {
     echoToPlotly();
     digitalWrite(13, HIGH);
     delay(1000);
@@ -148,4 +148,3 @@ String getTimeStamp() {
 
   return result;
 }
-

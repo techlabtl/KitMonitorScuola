@@ -58,15 +58,38 @@ Se no, puoi collegarti in ssh e poi eseguire i seguenti comandi (per avere un di
       uci set fstab.@mount[0].options=rw,sync,noatime,nodiratime
       uci commit
 
-##Clona la cartella git sulla yun
+se ti servono altre info puoi guardare la guida su:
 
-opkg update
-opkg install python-openssl
-opkg install distribute
-easy_install pip
+https://wiki.openwrt.org/doc/howto/extroot
 
-pip install plotly
-python -c "import plotly; plotly.tools.set_credentials_file(username='bonello_chieri', api_key='qto5asnqjx', stream_ids=['ljduvo6kaf', 'jerzvovazd', 't35impwed5', 'rjqldo03di', '8v5xitfha4', '0ewlqffol7', '1smk5j4q77', 'omtrfaaoe7', '11xeu4xw13', 'fdbw3gy0ym', 'f20mk3c28t', 'bkm1ma4p44', 'p1vyxgufp2', '3q1m5tltp2', 'phl8ijw3zd', 'yfaxa4zagd', 'aq3bkssbw7', '9s2h27psht'])"
-scp -r ~/Desktop/YUN_code_fanelli/.../A root@...
 
-scaricare sketch arduino
+##Installa la libreria di python per plotly
+
+    opkg update
+    opkg install python-openssl
+    opkg install distribute
+    opkg install subversion-client
+    easy_install pip
+    pip install plotly
+
+##Clona tutti i file che ti servono sulla SD
+
+    svn export https://github.com/paolocavagnolo/KitMonitorScuola/trunk/SD_A/
+
+vai nella cartella /SD_A/
+
+    cp -r ./ ../
+    cd ..
+    rm -r ./SD_A/
+
+
+##Configura plotly
+
+    python -c "import plotly; plotly.tools.set_credentials_file(username='techlabplot', api_key='2dehs2k3sw')"
+
+cambia il nome della ClasseA, nei seguenti file:
+
+- PRIMOplotterA.py
+- plotterA.py
+
+    python PRIMOplotterA.py
