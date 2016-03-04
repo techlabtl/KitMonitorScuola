@@ -1,0 +1,8 @@
+requests
+six
+pytz
+
+[PY2.6]
+simplejson
+ordereddict
+requests[security]
