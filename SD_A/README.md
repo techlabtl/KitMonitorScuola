@@ -5,6 +5,10 @@ Trovi qua la guida:
 
 https://www.arduino.cc/en/Tutorial/YunSysupgrade
 
+##Espandi lo spazio del sistema operativo sulla SD
+
+https://www.arduino.cc/en/Tutorial/ExpandingYunDiskSpace
+
 Se no, puoi collegarti in ssh e poi eseguire i seguenti comandi (per avere un disco da 1Gb):
 
 
@@ -53,13 +57,6 @@ Se no, puoi collegarti in ssh e poi eseguire i seguenti comandi (per avere un di
       uci set fstab.@mount[0].enabled_fsck=0
       uci set fstab.@mount[0].options=rw,sync,noatime,nodiratime
       uci commit
-
-
-##Espandi lo spazio del sistema operativo sulla SD
-
-https://www.arduino.cc/en/Tutorial/ExpandingYunDiskSpace
-
-
 
 ##Clona la cartella git sulla yun
 
