@@ -5,7 +5,7 @@ ClasseA = "4A"
 fileOption = 'extend'
 
 def readFromFile():
-  arduFile = "/mnt/sda1/collector/arduinoData"
+  arduFile = "/mnt/sda1/SD_A/collector/arduinoData"
   lines = []
   with open(arduFile, "r") as f:
       lines = f.readlines()

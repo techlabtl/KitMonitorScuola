@@ -5,7 +5,7 @@ ClasseA = "4A"
 fileOption = 'new'
 
 def readFromFile():
-  arduFile = "/mnt/sda1/datalog.txt"
+  arduFile = "/mnt/sda1/SD_A/datalog.txt"
   lines = []
   with open(arduFile, "r") as f:
       lines = f.readlines()
