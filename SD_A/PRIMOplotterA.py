@@ -33,7 +33,7 @@ for line in lines:
     suono.append(lines[i].split(',')[4])
     umidi.append(lines[i].split(',')[5])
     temp.append(lines[i].split(',')[6])
-    corrente.append(lines[i].split(',')[7])
+    # corrente.append(lines[i].split(',')[7])
     i=i+1
 
 
@@ -248,34 +248,34 @@ unique_url = py.plot(fig, filename = 'Temperatura', fileopt=fileOption)
 
 #CORRENTE
 
-corrente_standard = [0] * len(time)
-
-trace0 = Scatter(
-  x=time,
-  y=corrente_array,
-  mode='lines',
-  name=ClasseA,
-    line=Line(
-        width='2'
-    )
-)
-trace1 = Scatter(
-  x=time,
-  y=corrente_standard,
-  mode='lines',
-  name="bassi consumi",
-    line=Line(
-        width='1'
-    )
-)
-
-dataCorrente = Data([trace0, trace1])
-layout = Layout(
-    yaxis=YAxis(
-        title="Assorbimento di corrente",
-    ),
-    autosize=True,
-    title="Consumo elettrico in Watt"
-)
-fig = Figure(data=dataCorrente, layout=layout)
-unique_url = py.plot(fig, filename = 'Consumo elettrico', fileopt=fileOption)
+# corrente_standard = [0] * len(time)
+#
+# trace0 = Scatter(
+#   x=time,
+#   y=corrente_array,
+#   mode='lines',
+#   name=ClasseA,
+#     line=Line(
+#         width='2'
+#     )
+# )
+# trace1 = Scatter(
+#   x=time,
+#   y=corrente_standard,
+#   mode='lines',
+#   name="bassi consumi",
+#     line=Line(
+#         width='1'
+#     )
+# )
+#
+# dataCorrente = Data([trace0, trace1])
+# layout = Layout(
+#     yaxis=YAxis(
+#         title="Assorbimento di corrente",
+#     ),
+#     autosize=True,
+#     title="Consumo elettrico in Watt"
+# )
+# fig = Figure(data=dataCorrente, layout=layout)
+# unique_url = py.plot(fig, filename = 'Consumo elettrico', fileopt=fileOption)

@@ -25,7 +25,7 @@ suono = []
 luce = []
 umidi = []
 temp = []
-corrente = []
+# corrente = []
 
 for line in lines:
     data.append(lines[i].split(',')[0])
@@ -35,7 +35,7 @@ for line in lines:
     suono.append(lines[i].split(',')[4])
     umidi.append(lines[i].split(',')[5])
     temp.append(lines[i].split(',')[6])
-    corrente.append(lines[i].split(',')[7])
+    # corrente.append(lines[i].split(',')[7])
     i=i+1
 
 #TIME
@@ -126,10 +126,10 @@ unique_url = py.plot(dataTemp, filename = 'Temperatura', fileopt=fileOption)
 
 #CORRENTE
 
-corrente_standard = [0] * len(time)
-
-trace0 = Scatter(x=time,y=corrente_array)
-trace1 = Scatter(x=time,y=corrente_standard)
-
-dataCorrente = Data([trace0, trace1, trace2])
-unique_url = py.plot(dataCorrente, filename = 'Consumo elettrico', fileopt=fileOption)
+# corrente_standard = [0] * len(time)
+#
+# trace0 = Scatter(x=time,y=corrente_array)
+# trace1 = Scatter(x=time,y=corrente_standard)
+#
+# dataCorrente = Data([trace0, trace1, trace2])
+# unique_url = py.plot(dataCorrente, filename = 'Consumo elettrico', fileopt=fileOption)

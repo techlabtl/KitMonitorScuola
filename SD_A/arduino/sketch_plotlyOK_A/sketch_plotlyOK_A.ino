@@ -82,14 +82,14 @@ void loop()
   //Serial.print(t);
   //Serial.print(',');
   dataString += t;
-  dataString += ',';
+  //dataString += ',';
 
 
   //CORRENTE
-  double Irms = emon1.calcIrms(1480);  // Calculate Irms only
-  Irms -= 0.5;
+  //double Irms = emon1.calcIrms(1480);  // Calculate Irms only
+  //Irms -= 0.5;
   //Serial.println(Irms);		       // Irms
-  dataString += Irms;
+  //dataString += Irms;
   //dataString += ',';
 
   //plotter6.plot(Irms);
@@ -98,7 +98,7 @@ void loop()
   echoToCollector(dataString);
 
   jj++;
-  if (jj > 100) {
+  if (jj > 300) {
     echoToPlotly();
     digitalWrite(13, HIGH);
     delay(1000);
