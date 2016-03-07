@@ -75,6 +75,8 @@ https://wiki.openwrt.org/doc/howto/extroot
 ##Clona tutti i file che ti servono sulla SD
 
     svn export https://github.com/paolocavagnolo/KitMonitorScuola/trunk/SD_A/
+    svn export https://github.com/paolocavagnolo/KitMonitorScuola/trunk/setup/
+
 
 ##Configura plotly
 

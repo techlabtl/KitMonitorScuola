@@ -94,7 +94,7 @@ void loop()
 
   //plotter6.plot(Irms);
 
-  echoToFile(dataString, "/mnt/sda1/datalog.txt");
+  echoToFile(dataString, "/mnt/sda1/SD_A/datalog.txt");
   echoToCollector(dataString);
 
   jj++;
@@ -123,13 +123,13 @@ void echoToFile(String dataString, String filename) {
 
 void echoToCollector(String dataString) {
   Process p;
-  p.runShellCommand("/mnt/sda1/collector.py " + dataString);
+  p.runShellCommand("/mnt/sda1/SD_A/collector.py " + dataString);
   while (p.running());
 }
 
 void echoToPlotly() {
   Process p;
-  p.runShellCommand("/mnt/sda1/plotterA.py");
+  p.runShellCommand("/mnt/sda1/SD_A/plotterA.py");
   while (p.running());
 }
 
