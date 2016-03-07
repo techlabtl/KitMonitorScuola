@@ -76,13 +76,6 @@ https://wiki.openwrt.org/doc/howto/extroot
 
     svn export https://github.com/paolocavagnolo/KitMonitorScuola/trunk/SD_A/
 
-vai nella cartella /SD_A/
-
-    cp -r ./ ../
-    cd ..
-    rm -r ./SD_A/
-
-
 ##Configura plotly
 
     python -c "import plotly; plotly.tools.set_credentials_file(username='techlabplot', api_key='2dehs2k3sw')"
