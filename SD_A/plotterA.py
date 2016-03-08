@@ -61,8 +61,8 @@ aria_array = map(lambda x: ((Yb-Ya)/float(Xb-Xa))*(x-Xa)+Ya, aria)
 #LUM AS IS
 
 #CORRENTE
-corrente = map(float,corrente)
-corrente_array = map(lambda x: math.floor(x)*300, corrente)
+# corrente = map(float,corrente)
+# corrente_array = map(lambda x: math.floor(x)*300, corrente)
 
 import plotly.plotly as py
 from plotly.graph_objs import *
