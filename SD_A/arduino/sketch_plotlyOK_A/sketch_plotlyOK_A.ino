@@ -97,20 +97,21 @@ void loop()
   echoToFile(dataString, "/mnt/sda1/SD_A/datalog.txt");
   echoToCollector(dataString);
 
-  jj++;
-  if (jj > 300) {
-    echoToPlotly();
-    digitalWrite(13, HIGH);
-    delay(1000);
-    digitalWrite(13, LOW);
-    delay(1000);
-    jj = 0;
-  }
+  // jj++;
+  // if (jj > 300) {
+  //   echoToPlotly();
+  //   digitalWrite(13, HIGH);
+  //   delay(1000);
+  //   digitalWrite(13, LOW);
+  //   delay(1000);
+  //   jj = 0;
+  // }
 
   digitalWrite(13, HIGH);
   delay(300);
   digitalWrite(13, LOW);
   delay(300);
+
   delay(30000);
 
 }

@@ -88,3 +88,19 @@ cambia il nome della ClasseA, nei seguenti file:
 - plotterA.py
 
     python PRIMOplotterA.py
+
+##Configura openwrt
+
+Fai aggiornare automaticamente il software in 2 momenti distinti della giornata, alle 12.00 e alle 19.00
+
+  crontab -e
+
+aggiungi le seguenti righe:
+
+  00 12 * * * date > /mnt/sda1/SD_A/log.log; python /mnt/sda1/SD_A/plotterA.py > /mnt/sda1/SD_A/log.log
+  00 19 * * * date > /mnt/sda1/SD_A/log.log; python /mnt/sda1/SD_A/plotterA.py > /mnt/sda1/SD_A/log.log
+
+attiva crontab:
+
+  /etc/init.d/cron start
+  /etc/init.d/cron enable
