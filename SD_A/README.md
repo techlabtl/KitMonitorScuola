@@ -1,5 +1,17 @@
 #Guida per la configurazione della yun per renderla un bel client per plotly
 
+Bene, eccoci.
+Questa guida raccoglie tutti i passaggi per poter configurare l'arduino YÚNN, con i 5 sensori collegati.
+L'idea di base è la seguente:
+
+ - Il processore 32U4 presente sulla YÚN verrò fleshato con apposito codice e si occuperà di raccogliere i dati ogni X secondi e scriverli all'interno di due file:
+    - **datalog.txt** dove verranno registrati per backup
+    - **/collector/arduinoData** che rappresenta il buffer per la comunicazione a plot.ly
+
+ - Il sistema operativo *openWrt* gestirà i rapporti tra i due file e plot.ly.
+
+
+
 ##Aggiorna il firmware della yun
 Trovi qua la guida:
 
@@ -74,8 +86,8 @@ https://wiki.openwrt.org/doc/howto/extroot
 
 ##Clona tutti i file che ti servono sulla SD
 
-    svn export https://github.com/paolocavagnolo/KitMonitorScuola/trunk/SD_A/ --force
-    svn export https://github.com/paolocavagnolo/KitMonitorScuola/trunk/setup/ --force
+    svn export https://github.com/paolocavagnolo/KitMonitorScuola/trunk/arduino/ --force
+    svn export https://github.com/paolocavagnolo/KitMonitorScuola/trunk/linino/ --force
 
 
 ##Configura plotly
