@@ -28,7 +28,7 @@ void setup()
 {
   Bridge.begin();
   FileSystem.begin();
-  delay(2000);
+  delay(60000); //wait for system to star correctly
 
   emon1.current(CT_PIN, 98.77);
   dht.begin();
