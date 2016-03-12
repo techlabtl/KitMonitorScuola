@@ -17,11 +17,12 @@ DHT dht(DHT_PIN, DHTTYPE);
 
 
 long int j =   0;
-int jj = 0;
 
 String datalog_file;
 String buffer_file;
 int frequency_delay;
+
+const String arduino_param = "cat /mnt/sd/arduino/arduino.param | grep ";
 
 void setup()
 {
@@ -103,35 +104,15 @@ void loop()
 
   //plotter6.plot(Irms);
 
-  echoToFile(dataString, "/mnt/sda1/SD_A/datalog.txt");
+  echoToFile(dataString, datalog_file);
   echoToCollector(dataString);
 
-  // jj++;
-  // if (jj > 300) {
-  //   echoToPlotly();
-  //   digitalWrite(13, HIGH);
-  //   delay(1000);
-  //   digitalWrite(13, LOW);
-  //   delay(1000);
-  //   jj = 0;
-  // }
-
-  */
   digitalWrite(13, HIGH);
   delay(100);
   digitalWrite(13, LOW);
+  delay(100);
   delay(frequency_delay);
   
-  String ccc;
-  
-  ccc += datalog_file;
-  ccc += " ";
-  ccc += buffer_file;
-  
-  echoToFile(ccc, data_file);
-  
-  
-
 }
 
 void echoToFile(String dataString, String filename) {
@@ -167,7 +148,7 @@ String getParam(String a) {
   String result;
   bool onRead=false;
 
-  p.runShellCommand("cat /mnt/sd/arduino.param | grep " + a);
+  p.runShellCommand(arduino_param + a);
 
   while (p.running()); // do nothing until the process finishes, so you get the whole output
   while (p.available() > 0) {
