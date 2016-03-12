@@ -5,7 +5,7 @@ ClasseA = "techlab"
 fileOption = 'new'
 
 def readFromFile():
-  arduFile = "/mnt/sda1/linino/datalog.txt"
+  arduFile = "/mnt/sda1/arduino/datalog.txt"
   lines = []
   with open(arduFile, "r") as f:
       lines = f.readlines()
