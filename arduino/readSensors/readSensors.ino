@@ -32,16 +32,16 @@ void setup()
 
   emon1.current(CT_PIN, 98.77);
   dht.begin();
-  
+
   datalog_file = getParam("datalog");
   buffer_file = getParam("buffer");
   frequency_delay = getParam("delay").toInt();
-  
+
 }
 
 void loop()
 {
-  
+
   String dataString;
   dataString += getTimeStamp();
   dataString += ',';
@@ -112,7 +112,7 @@ void loop()
   digitalWrite(13, LOW);
   delay(100);
   delay(frequency_delay);
-  
+
 }
 
 void echoToFile(String dataString, String filename) {
@@ -123,7 +123,7 @@ void echoToFile(String dataString, String filename) {
 
 void echoToCollector(String dataString) {
   Process p;
-  p.runShellCommand(buffer_file + dataString);
+  p.runShellCommand(buffer_file + " " + dataString);
   while (p.running());
 }
 
@@ -165,4 +165,3 @@ String getParam(String a) {
 
   return result;
 }
-
