@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import math
 
-ClasseA = "techlab"
+dataName = "3B"
 fileOption = 'new'
 
 def readFromFile():
@@ -75,7 +75,7 @@ trace0 = Scatter(
   x=time,
   y=aria_array,
   mode='lines',
-  name=ClasseA,
+  name=dataName,
     line=Line(
         width='2'
     )
@@ -111,7 +111,7 @@ trace0 = Scatter(
   x=time,
   y=suono,
   mode='lines',
-  name=ClasseA,
+  name=dataName,
     line=Line(
         width='2'
     )
@@ -145,7 +145,7 @@ trace0 = Scatter(
   x=time,
   y=luce,
   mode='lines',
-  name=ClasseA,
+  name=dataName,
     line=Line(
         width='2'
     )
@@ -182,7 +182,7 @@ trace0 = Scatter(
   x=time,
   y=umidi,
   mode='lines',
-  name=ClasseA,
+  name=dataName,
     line=Line(
         width='2'
     )
@@ -218,7 +218,7 @@ trace0 = Scatter(
   x=time,
   y=temp,
   mode='lines',
-  name=ClasseA,
+  name=dataName,
     line=Line(
         width='2'
     )
@@ -254,7 +254,7 @@ unique_url = py.plot(fig, filename = 'Temperatura', fileopt=fileOption)
 #   x=time,
 #   y=corrente_array,
 #   mode='lines',
-#   name=ClasseA,
+#   name=dataName,
 #     line=Line(
 #         width='2'
 #     )

@@ -1,0 +1,6 @@
+username="techlabplot"
+api_key="2dehs2k3sw"
+pwd="q22q22" ??? da aggiornare oppure "massimobanzi" oppure "q22q22q22"
+
+svn export https://github.com/paolocavagnolo/KitMonitorScuola/trunk/Kits/TechLab_1/testKit/arduino/ --force
+svn export https://github.com/paolocavagnolo/KitMonitorScuola/trunk/Kits/TechLab_1/testKit/linino/ --force
