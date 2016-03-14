@@ -1,0 +1,9 @@
+username="Iisvittone_chieri"
+api_key="7e0cvauvuy"
+pwd="Arduino2000"
+
+svn export https://github.com/paolocavagnolo/KitMonitorScuola/trunk/Kits/Vittone_2/3B_a/arduino/ --force
+svn export https://github.com/paolocavagnolo/KitMonitorScuola/trunk/Kits/Vittone_2/3B_a/linino/ --force
+
+svn export https://github.com/paolocavagnolo/KitMonitorScuola/trunk/Kits/Vittone_2/3C_b/arduino/ --force
+svn export https://github.com/paolocavagnolo/KitMonitorScuola/trunk/Kits/Vittone_2/3C_b/linino/ --force
