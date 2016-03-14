@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import math
 
-dataName = "techlab"
+dataName = "3E"
 fileOption = 'extend'
 
 def readFromFile():

@@ -2,5 +2,5 @@ username="Quarini_Chieri"
 api_key="u6c5mqghef"
 pwd="Arduino2000"
 
-svn export https://github.com/paolocavagnolo/KitMonitorScuola/trunk/Kits/Quarini_1/3B/arduino/ --force
-svn export https://github.com/paolocavagnolo/KitMonitorScuola/trunk/Kits/Quarini_1/3B/linino/ --force
+svn export https://github.com/paolocavagnolo/KitMonitorScuola/trunk/Kits/Quarini_1/3E/arduino/ --force
+svn export https://github.com/paolocavagnolo/KitMonitorScuola/trunk/Kits/Quarini_1/3E/linino/ --force
