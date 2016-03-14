@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import math
 
-dataName = "3B"
+dataName = "3C"
 fileOption = 'new'
 
 def readFromFile():

@@ -4,3 +4,5 @@ pwd="Arduino2000"
 
 svn export https://github.com/paolocavagnolo/KitMonitorScuola/trunk/Kits/Quarini_1/3E/arduino/ --force
 svn export https://github.com/paolocavagnolo/KitMonitorScuola/trunk/Kits/Quarini_1/3E/linino/ --force
+
+https://dashboards.ly/ua-osFF8At5kL8yreZB3oCn

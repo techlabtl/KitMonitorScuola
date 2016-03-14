@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import math
 
-dataName = "3C"
+dataName = "2C"
 fileOption = 'append'
 
 def readFromFile():

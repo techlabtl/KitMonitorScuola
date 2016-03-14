@@ -2,8 +2,8 @@ username="Levi_Andezeno"
 api_key="lb6pdibqme"
 pwd="Arduino2000"
 
-svn export https://github.com/paolocavagnolo/KitMonitorScuola/trunk/Kits/Andezeno_2/3B_a/arduino/ --force
-svn export https://github.com/paolocavagnolo/KitMonitorScuola/trunk/Kits/Andezeno_2/3B_a/linino/ --force
+svn export https://github.com/paolocavagnolo/KitMonitorScuola/trunk/Kits/Andezeno_2/3C_a/arduino/ --force
+svn export https://github.com/paolocavagnolo/KitMonitorScuola/trunk/Kits/Andezeno_2/3C_a/linino/ --force
 
-svn export https://github.com/paolocavagnolo/KitMonitorScuola/trunk/Kits/Andezeno_2/3C_b/arduino/ --force
-svn export https://github.com/paolocavagnolo/KitMonitorScuola/trunk/Kits/Andezeno_2/3C_b/linino/ --force
+svn export https://github.com/paolocavagnolo/KitMonitorScuola/trunk/Kits/Andezeno_2/2C_b/arduino/ --force
+svn export https://github.com/paolocavagnolo/KitMonitorScuola/trunk/Kits/Andezeno_2/2C_b/linino/ --force

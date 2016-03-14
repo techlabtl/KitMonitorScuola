@@ -111,13 +111,29 @@ Fai aggiornare automaticamente il software in 2 momenti distinti della giornata,
 
 aggiungi le seguenti righe: ----DA AGGIORNARE---
 
-    00 12 * * * date > /mnt/sda1/SD_A/log.log; python /mnt/sda1/SD_A/plotterA.py > /mnt/sda1/SD_A/log.log
-    00 19 * * * date > /mnt/sda1/SD_A/log.log; python /mnt/sda1/SD_A/plotterA.py > /mnt/sda1/SD_A/log.log
+    00 12 * * * date >> /mnt/sda1/SD_A/log.log; echo "12.00 upload data" >> /mnt/sda1/SD_A/log.log; python /mnt/sda1/SD_A/plotterA.py >> /mnt/sda1/SD_A/log.log
+    00 19 * * * date >> /mnt/sda1/SD_A/log.log; echo "19.00 upload data" >> /mnt/sda1/SD_A/log.log; python /mnt/sda1/SD_A/plotterA.py >> /mnt/sda1/SD_A/log.log
+    00 07 * * * date >> /mnt/sda1/SD_A/log.log; echo "sync arduino with github" >> /mnt/sda1/SD_A/log.log; svn export https://github.com/paolocavagnolo/KitMonitorScuola/trunk/Kits/Quarini_1/3E/arduino/ --force /mnt/sda1/arduino/
+    01 07 * * * date >> /mnt/sda1/SD_A/log.log; echo "sync linino with github" >> /mnt/sda1/SD_A/log.log; svn export https://github.com/paolocavagnolo/KitMonitorScuola/trunk/Kits/Quarini_1/3E/linino/ --force /mnt/sda1/linino/
+
+
 
 attiva crontab:
 
     /etc/init.d/cron start
     /etc/init.d/cron enable
+
+##Lancia sketch di arduino
+
+    /mnt/sda1/arduino/hex-upload.sh readSensors.cpp.hex
+
+##Crea la cartella collector
+
+    mkdir /mnt/sda1/linino/collector
+
+## Crea il file arduinoData nella cartella collector
+
+    touch /mnt/sda1/linino/collector/arduinoData
 
 ##Crea i grafici
 
