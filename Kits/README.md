@@ -70,9 +70,14 @@ Se no, puoi collegarti in ssh e poi eseguire i seguenti comandi (per avere un di
       uci set fstab.@mount[0].options=rw,sync,noatime,nodiratime
       uci commit
 
+      reboot
+
 se ti servono altre info puoi guardare la guida su:
 
 https://wiki.openwrt.org/doc/howto/extroot
+
+Prima di proseguire dovrai collegare la yun alla rete wifi!
+
 
 
 ##Installa la libreria di python per plotly

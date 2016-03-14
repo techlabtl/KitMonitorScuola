@@ -92,14 +92,14 @@ void loop()
   //Serial.print(t);
   //Serial.print(',');
   dataString += t;
-  //dataString += ',';
+  dataString += ',';
 
 
   //CORRENTE
-  //double Irms = emon1.calcIrms(1480);  // Calculate Irms only
-  //Irms -= 0.5;
+  double Irms = emon1.calcIrms(1480);  // Calculate Irms only
+  Irms -= 0.5;
   //Serial.println(Irms);		       // Irms
-  //dataString += Irms;
+  dataString += Irms;
   //dataString += ',';
 
   //plotter6.plot(Irms);
