@@ -1,16 +1,14 @@
 #!/usr/bin/env python
 import math
 
-dataName = "3C"
-fileOption = 'extend'
+ClasseB = "2C"
+fileOption = 'append'
 
 def readFromFile():
-  arduFile = "/mnt/sda1/linino/collector/arduinoData"
+  arduFile = "/mnt/sda1/arduino/datalog.txt"
   lines = []
   with open(arduFile, "r") as f:
       lines = f.readlines()
-  with open(arduFile, "w") as f:
-      f.truncate()
   lines = map(lambda x: x.rstrip(), lines)
   return lines
 
@@ -62,74 +60,101 @@ aria_array = map(lambda x: ((Yb-Ya)/float(Xb-Xa))*(x-Xa)+Ya, aria)
 
 #CORRENTE
 corrente = map(float,corrente)
-corrente_array = map(lambda x: math.floor(x)*300, corrente)
+corrente_array = map(lambda x: math.floor(x)*350, corrente)
+
 
 import plotly.plotly as py
 from plotly.graph_objs import *
 
-trace2 = Scatter(
-  x=[],
-  y=[],
-
-)
 
 #ARIA
 
-aria_standard = [80] * len(time)
+trace2 = Scatter(
+  x=time,
+  y=aria_array,
+  mode='lines',
+  name=ClasseB,
+    line=Line(
+        width='2'
+    )
+)
 
-trace0 = Scatter(x=time,y=aria_array)
-trace1 = Scatter(x=time,y=aria_standard)
-
-dataAria = Data([trace0,trace1,trace2])
+dataAria = Data([trace2])
 unique_url = py.plot(dataAria, filename = 'Respirabilita\'', fileopt=fileOption)
 
 #SUONO
 
-suono_standard = [210] * len(time)
+trace2 = Scatter(
+  x=time,
+  y=suono,
+  mode='lines',
+  name=ClasseB,
+    line=Line(
+        width='2'
+    )
+)
 
-trace0 = Scatter(x=time,y=suono)
-trace1 = Scatter(x=time,y=suono_standard)
-
-dataSuono = Data([trace0, trace1, trace2])
+dataSuono = Data([trace2])
 unique_url = py.plot(dataSuono, filename = 'Rumore', fileopt=fileOption)
 
 #LUCE
 
-luce_standard = [30] * len(time)
+trace2 = Scatter(
+  x=time,
+  y=luce,
+  mode='lines',
+  name=ClasseB,
+    line=Line(
+        width='2'
+    )
+)
 
-trace0 = Scatter(x=time,y=luce)
-trace1 = Scatter(x=time,y=luce_standard)
-
-dataLuce = Data([trace0, trace1, trace2])
+dataLuce = Data([trace2])
 unique_url = py.plot(dataLuce, filename = 'Luminosita\'', fileopt=fileOption)
 
 #UMIDI
 
-umidi_standard = [50] * len(time)
+trace2 = Scatter(
+  x=time,
+  y=umidi,
+  mode='lines',
+  name=ClasseB,
+    line=Line(
+        width='2'
+    )
+)
 
-trace0 = Scatter(x=time,y=umidi)
-trace1 = Scatter(x=time,y=umidi_standard)
-
-dataUmidi = Data([trace0, trace1, trace2])
+dataUmidi = Data([trace2])
 unique_url = py.plot(dataUmidi, filename = 'Umidita\'', fileopt=fileOption)
+
 
 #TEMP
 
-temp_standard = [19.5] * len(time)
+trace2 = Scatter(
+  x=time,
+  y=temp,
+  mode='lines',
+  name=ClasseB,
+    line=Line(
+        width='2'
+    )
+)
 
-trace0 = Scatter(x=time,y=temp)
-trace1 = Scatter(x=time,y=temp_standard)
-
-dataTemp = Data([trace0, trace1, trace2])
+dataTemp = Data([trace2])
 unique_url = py.plot(dataTemp, filename = 'Temperatura', fileopt=fileOption)
 
 
 #CORRENTE
 
-corrente_standard = [0] * len(time)
+trace2 = Scatter(
+  x=time,
+  y=corrente_array,
+  mode='lines',
+  name=ClasseB,
+    line=Line(
+        width='2'
+    )
+)
 
-trace0 = Scatter(x=time,y=corrente_array)
-trace1 = Scatter(x=time,y=corrente_standard)
-
-dataCorrente = Data([trace0, trace1, trace2])
+dataCorrente = Data([trace2])
 unique_url = py.plot(dataCorrente, filename = 'Consumo elettrico', fileopt=fileOption)

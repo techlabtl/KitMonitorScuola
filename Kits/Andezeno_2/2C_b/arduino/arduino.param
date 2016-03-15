@@ -1,3 +1,3 @@
 delay,30000
-datalog,/mnt/sd/arduino/datalog.txt
-buffer,/mnt/sd/linino/collector.py
+datalog,/mnt/sda1/arduino/datalog.txt
+buffer,/mnt/sda1/linino/collector.py

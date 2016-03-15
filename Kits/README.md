@@ -27,8 +27,7 @@ Se no, puoi collegarti in ssh e poi eseguire i seguenti comandi (per avere un di
       opkg update
       opkg install e2fsprogs mkdosfs fdisk rsync
 
-      rm -rf /mnt/sda?
-      umount /dev/sda?
+      rm -rf /mnt/sda?; umount /dev/sda?
 
       dd if=/dev/zero of=/dev/sda bs=4096 count=10
 
@@ -118,10 +117,15 @@ aggiungi le seguenti righe: ----DA AGGIORNARE---
 
     00 12 * * * date >> /mnt/sda1/SD_A/log.log; echo "12.00 upload data" >> /mnt/sda1/SD_A/log.log; python /mnt/sda1/SD_A/plotterA.py >> /mnt/sda1/SD_A/log.log
     00 19 * * * date >> /mnt/sda1/SD_A/log.log; echo "19.00 upload data" >> /mnt/sda1/SD_A/log.log; python /mnt/sda1/SD_A/plotterA.py >> /mnt/sda1/SD_A/log.log
-    00 07 * * * date >> /mnt/sda1/SD_A/log.log; echo "sync arduino with github" >> /mnt/sda1/SD_A/log.log; svn export https://github.com/paolocavagnolo/KitMonitorScuola/trunk/Kits/Quarini_1/3E/arduino/ --force /mnt/sda1/arduino/
-    01 07 * * * date >> /mnt/sda1/SD_A/log.log; echo "sync linino with github" >> /mnt/sda1/SD_A/log.log; svn export https://github.com/paolocavagnolo/KitMonitorScuola/trunk/Kits/Quarini_1/3E/linino/ --force /mnt/sda1/linino/
+    00 07 * * * date >> /mnt/sda1/SD_A/log.log; echo "sync arduino with github" >> /mnt/sda1/SD_A/log.log; svn export https://github.com/paolocavagnolo/KitMonitorScuola/trunk/Kits/Andezeno_2/3C_a/arduino/ --force /mnt/sda1/arduino/
+    01 07 * * * date >> /mnt/sda1/SD_A/log.log; echo "sync linino with github" >> /mnt/sda1/SD_A/log.log; svn export https://github.com/paolocavagnolo/KitMonitorScuola/trunk/Kits/Andezeno_2/3C_a/linino/ --force /mnt/sda1/linino/
 
+oppure per il secondo:
 
+    00 12 * * * date >> /mnt/sda1/SD_A/log.log; echo "12.00 upload data" >> /mnt/sda1/SD_A/log.log; python /mnt/sda1/SD_A/plotterB.py >> /mnt/sda1/SD_A/log.log
+    00 19 * * * date >> /mnt/sda1/SD_A/log.log; echo "19.00 upload data" >> /mnt/sda1/SD_A/log.log; python /mnt/sda1/SD_A/plotterB.py >> /mnt/sda1/SD_A/log.log
+    00 07 * * * date >> /mnt/sda1/SD_A/log.log; echo "sync arduino with github" >> /mnt/sda1/SD_A/log.log; svn export https://github.com/paolocavagnolo/KitMonitorScuola/trunk/Kits/Andezeno_2/3C_a/arduino/ --force /mnt/sda1/arduino/
+    01 07 * * * date >> /mnt/sda1/SD_A/log.log; echo "sync linino with github" >> /mnt/sda1/SD_A/log.log; svn export https://github.com/paolocavagnolo/KitMonitorScuola/trunk/Kits/Andezeno_2/3C_a/linino/ --force /mnt/sda1/linino/
 
 attiva crontab:
 
