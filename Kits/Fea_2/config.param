@@ -2,8 +2,8 @@ username="bonello_chieri"
 api_key="qto5asnqjx"
 pwd="Arduino2000"
 
-svn export https://github.com/paolocavagnolo/KitMonitorScuola/trunk/Kits/Fea_2/3C_a/arduino/ --force
-svn export https://github.com/paolocavagnolo/KitMonitorScuola/trunk/Kits/Fea_2/3C_a/linino/ --force
+svn export https://github.com/paolocavagnolo/KitMonitorScuola/trunk/Kits/Fea_2/5A_a/arduino/ --force
+svn export https://github.com/paolocavagnolo/KitMonitorScuola/trunk/Kits/Fea_2/5A_a/linino/ --force
 
-svn export https://github.com/paolocavagnolo/KitMonitorScuola/trunk/Kits/Fea_2/2C_b/arduino/ --force
-svn export https://github.com/paolocavagnolo/KitMonitorScuola/trunk/Kits/Fea_2/2C_b/linino/ --force
+svn export https://github.com/paolocavagnolo/KitMonitorScuola/trunk/Kits/Fea_2/5B_b/arduino/ --force
+svn export https://github.com/paolocavagnolo/KitMonitorScuola/trunk/Kits/Fea_2/5B_b/linino/ --force

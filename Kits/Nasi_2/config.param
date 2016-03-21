@@ -1,0 +1,9 @@
+username="Nasi_Moncalieri"
+api_key="l8o5sxkhzh"
+pwd="Arduino2000"
+
+svn export https://github.com/paolocavagnolo/KitMonitorScuola/trunk/Kits/Nasi_2/1C_a/arduino/ --force
+svn export https://github.com/paolocavagnolo/KitMonitorScuola/trunk/Kits/Nasi_2/1C_a/linino/ --force
+
+svn export https://github.com/paolocavagnolo/KitMonitorScuola/trunk/Kits/Nasi_2/1D_b/arduino/ --force
+svn export https://github.com/paolocavagnolo/KitMonitorScuola/trunk/Kits/Nasi_2/1D_b/linino/ --force
