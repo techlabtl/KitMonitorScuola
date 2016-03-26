@@ -117,8 +117,8 @@ aggiungi le seguenti righe: ----DA AGGIORNARE---
 
     00 12 * * * date >> /mnt/sda1/log.log; echo "12.00 upload data" >> /mnt/sda1/log.log; python /mnt/sda1/linino/plotterA.py >> /mnt/sda1/log.log
     00 19 * * * date >> /mnt/sda1/log.log; echo "19.00 upload data" >> /mnt/sda1/log.log; python /mnt/sda1/linino/plotterA.py >> /mnt/sda1/log.log
-    00 07 * * * date >> /mnt/sda1/log.log; echo "sync arduino with github" >> /mnt/sda1/log.log; svn export svn export https://github.com/paolocavagnolo/KitMonitorScuola/trunk/Kits/Nasi_2/1C_a/arduino/ --force /mnt/sda1/arduino/
-    01 07 * * * date >> /mnt/sda1/log.log; echo "sync linino with github" >> /mnt/sda1/log.log; svn export svn export https://github.com/paolocavagnolo/KitMonitorScuola/trunk/Kits/Nasi_2/1C_a/linino/ --force /mnt/sda1/linino/
+    00 07 * * * date >> /mnt/sda1/log.log; echo "sync arduino with github" >> /mnt/sda1/log.log; svn export https://github.com/paolocavagnolo/KitMonitorScuola/trunk/Kits/TechLab_1/testKit/arduino/ --force /mnt/sda1/arduino/
+    01 07 * * * date >> /mnt/sda1/log.log; echo "sync linino with github" >> /mnt/sda1/log.log; svn export https://github.com/paolocavagnolo/KitMonitorScuola/trunk/Kits/TechLab_1/testKit/linino/ --force /mnt/sda1/linino/
 
 oppure per il secondo:
 

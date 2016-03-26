@@ -22,7 +22,7 @@ String datalog_file;
 String buffer_file;
 int frequency_delay;
 
-const String arduino_param = "cat /mnt/sd/arduino/arduino.param | grep ";
+const String arduino_param = "cat /mnt/sda1/arduino/arduino.param | grep ";
 
 void setup()
 {
