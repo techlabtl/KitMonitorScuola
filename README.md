@@ -32,3 +32,11 @@ Nella cartella [ConnessioneWifi](https://github.com/paolocavagnolo/KitMonitorScu
 ### I grafici prodotti da una scuola partecipante al progetto <a name="sec4"></a>
 
 ![Qualita' dell'aria](./plots/ARIA.png)
+
+![Luminosita'](./plots/LUMINOSITA.png)
+
+![Rumorisita'](./plots/RUMORISITA.png)
+
+![Temperatura](./plots/TEMPERATURA.png)
+
+![Umidita'](./plots/UMIDITA.png)
