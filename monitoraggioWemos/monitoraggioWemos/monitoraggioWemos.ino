@@ -1,18 +1,29 @@
 #include <ESP8266WiFi.h>
 #include <WiFiClient.h>
 #include <ESP8266WebServer.h>
-#include <SimpleDHT.h>
+#include <Wire.h>
+#include <SPI.h>
+#include <Adafruit_Sensor.h>
+#include <Adafruit_BME280.h>
+#include <Adafruit_TSL2561_U.h>
+
+#define BME_SCK 13
+#define BME_MISO 12
+#define BME_MOSI 11
+#define BME_CS 10
+
+Adafruit_BME280 bme;
+
+Adafruit_TSL2561_Unified tsl = Adafruit_TSL2561_Unified(TSL2561_ADDR_FLOAT, 12345);
 
 const char *ssid = "Kit Monitoraggio";
 
 ESP8266WebServer server(80);
 
-SimpleDHT22 dht;
-#define DHT22PIN D0
-
 float temperature = 0;
 float humidity = 0;
-int luminosity;
+float pressure = 0;
+int luminosity = 0;
 
 /*
    Go to http://192.168.4.1 in a web browser
@@ -20,23 +31,23 @@ int luminosity;
 
 void handleRoot() {
   String info="<meta charset=\"utf-8\"/>";
-  info += "<h1>Benvenuto!</h1>";
+  info += "<h1>Kit Monitoraggio</h1>";
   info += "<p>Temperatura: ";
   info +=temperature;
   info += " °C</p><p>Umidita: ";
   info += humidity;
-  info += " %</p><p>Luminosita: ";
+  info += " %</p><p>Pressione: ";
+  info += pressure;
+  info += " hPa</p><p>Luminosita: ";
   info += luminosity;
   info += " lux</p>";
+  //ricarica la pagina in automatica dopo 5 secondi, così da avere le informazioni aggiornate
   info += "<script> setTimeout(function(){location.reload();}, 5000);  </script>";
   server.send(200, "text/html", info);
 
 }
 
 void setup() {
-  pinMode(DHT22PIN, INPUT);
-
-
   delay(1000);
   Serial.begin(115200);
   Serial.println();
@@ -50,8 +61,26 @@ void setup() {
   server.begin();
   Serial.println("HTTP server started");
 
-  //to prevent DHT reading errors
-  delay(3000);
+
+  //BME SETUP
+  bool status;
+  // (you can also pass in a Wire library object like &Wire2)
+  status = bme.begin();  
+  if (!status) {
+      Serial.println("Could not find a valid BME280 sensor, check wiring!");
+      while (1);
+  }
+
+
+  //TSL SETUP
+  if(!tsl.begin())
+  {
+    /* There was a problem detecting the TSL2561 ... check your connections */
+    Serial.print("Ooops, no TSL2561 detected ... Check your wiring or I2C ADDR!");
+    while(1);
+  }
+  tsl.enableAutoRange(true);
+  tsl.setIntegrationTime(TSL2561_INTEGRATIONTIME_402MS);
 }
 
 void loop() {
@@ -61,28 +90,13 @@ void loop() {
 }
 
 void readSensors() {
-  temperature = 0;
-  humidity = 0;
-  luminosity;
+  temperature = bme.readTemperature();
+  humidity = bme.readHumidity();
+  pressure = bme.readPressure()/100.0F;
 
-  int err = SimpleDHTErrSuccess;
-  if ((err = dht.read2(DHT22PIN, &temperature, &humidity, NULL)) != SimpleDHTErrSuccess) {
-    Serial.print("Read DHT22 failed, err="); Serial.println(err); delay(2000);
-    return;
-  }
-
-  luminosity = analogRead(A0);
-
-  Serial.print("Humidity: ");
-  Serial.print(humidity);
-  Serial.println(" %");
-  Serial.print("Temperature: ");
-  Serial.print(temperature);
-  Serial.println(" °C");
-  Serial.print("Luminosity: ");
-  Serial.print(luminosity);
-  Serial.println(" Lux");
-
-
+  /* Get a new sensor light event */ 
+  sensors_event_t event;
+  tsl.getEvent(&event);
+  luminosity = event.light;
 }
 
