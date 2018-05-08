@@ -14,18 +14,32 @@
 #define BME_CS 10
 #define chipSelect D8
 
+//checks sensors every x milliseconds
+#define SENSOR_TIME 1*1000
+//saves to SD every x milliseconds
+#define SAVE_TIME 10*60*1000
+
+
+const char *ssid = "Kit Monitoraggio";
+
+
 Adafruit_BME280 bme;
 
 Adafruit_TSL2561_Unified tsl = Adafruit_TSL2561_Unified(TSL2561_ADDR_FLOAT, 12345);
-
-const char *ssid = "Kit Monitoraggio";
 
 ESP8266WebServer server(80);
 
 float temperature = 0;
 float humidity = 0;
 float pressure = 0;
-int luminosity = 0;
+float luminosity = 0;
+
+float total_temperature = 0;
+float total_humidity = 0;
+float total_pressure = 0;
+float total_luminosity = 0;
+
+long int last_saved;
 
 /*
    Go to http://192.168.4.1 in a web browser
@@ -47,6 +61,13 @@ void handleRoot() {
   //info += "<script> setTimeout(function(){location.reload();}, 5000);  </script>";
   server.send(200, "text/html", info);
 
+}
+
+void reset_total_variables(){
+  total_temperature=0;
+  total_humidity=0;
+  total_pressure=0;
+  total_luminosity=0;
 }
 
 void setup() {
@@ -89,22 +110,45 @@ void setup() {
     Serial.println("ERROR! Card failed, or not present");
     return;
   }
+
+  last_saved=millis();
+
+  reset_total_variables();
+  
+  //updating log file
+  String dataString="!!! sensor reset;from now on: reading every ";
+  dataString+=SENSOR_TIME;
+  dataString+=" milliseconds, saving every ";
+  dataString+=SAVE_TIME;
+  dataString+=" milliseconds";
+  File dataFile = SD.open("datalog.txt", FILE_WRITE);
+  if (dataFile) {
+    dataFile.println(dataString);
+    dataFile.close();
+  }
+  else {
+    Serial.println("error opening datalog.txt");
+  }
 }
 
 void loop() {
   server.handleClient();
   readSensors();
-  saveToSd();
-  delay(1000);
+  if (millis()-last_saved>SAVE_TIME){
+    saveToSd();
+    last_saved=millis();
+    reset_total_variables();
+  }
+  delay(SENSOR_TIME);
 }
 
 void saveToSd(){
   String dataString = "";
-
-  dataString+=String(temperature)+";";
-  dataString+=String(humidity)+";";
-  dataString+=String(pressure)+";";
-  dataString+=String(luminosity)+";";
+  float kk = float(SAVE_TIME)/float(SENSOR_TIME);
+  dataString+=String(total_temperature/kk)+";";
+  dataString+=String(total_humidity/kk)+";";
+  dataString+=String(total_pressure/kk)+";";
+  dataString+=String(total_luminosity/kk)+";";
 
   File dataFile = SD.open("datalog.txt", FILE_WRITE);
   if (dataFile) {
@@ -125,5 +169,11 @@ void readSensors() {
   sensors_event_t event;
   tsl.getEvent(&event);
   luminosity = event.light;
+
+  //update total variables
+  total_temperature+=temperature;
+  total_humidity+=humidity;
+  total_pressure+=pressure;
+  total_luminosity+=luminosity;
 }
 
