@@ -3,6 +3,7 @@
 #include <ESP8266WebServer.h>
 #include <Wire.h>
 #include <SPI.h>
+#include <SD.h>
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BME280.h>
 #include <Adafruit_TSL2561_U.h>
@@ -11,6 +12,7 @@
 #define BME_MISO 12
 #define BME_MOSI 11
 #define BME_CS 10
+#define chipSelect D8
 
 Adafruit_BME280 bme;
 
@@ -42,7 +44,7 @@ void handleRoot() {
   info += luminosity;
   info += " lux</p>";
   //ricarica la pagina in automatica dopo 5 secondi, così da avere le informazioni aggiornate
-  info += "<script> setTimeout(function(){location.reload();}, 5000);  </script>";
+  //info += "<script> setTimeout(function(){location.reload();}, 5000);  </script>";
   server.send(200, "text/html", info);
 
 }
@@ -81,12 +83,37 @@ void setup() {
   }
   tsl.enableAutoRange(true);
   tsl.setIntegrationTime(TSL2561_INTEGRATIONTIME_402MS);
+
+  //SD SETUP
+  if (!SD.begin(chipSelect)) {
+    Serial.println("ERROR! Card failed, or not present");
+    return;
+  }
 }
 
 void loop() {
   server.handleClient();
   readSensors();
+  saveToSd();
   delay(1000);
+}
+
+void saveToSd(){
+  String dataString = "";
+
+  dataString+=String(temperature)+";";
+  dataString+=String(humidity)+";";
+  dataString+=String(pressure)+";";
+  dataString+=String(luminosity)+";";
+
+  File dataFile = SD.open("datalog.txt", FILE_WRITE);
+  if (dataFile) {
+    dataFile.println(dataString);
+    dataFile.close();
+  }
+  else {
+    Serial.println("error opening datalog.txt");
+  }
 }
 
 void readSensors() {
