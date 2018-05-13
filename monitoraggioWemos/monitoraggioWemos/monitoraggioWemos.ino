@@ -41,7 +41,7 @@ float total_pressure = 0;
 float total_luminosity = 0;
 
 long int last_saved;
-
+boolean is_sd_card_present;
 /*
    Go to http://192.168.4.1 in a web browser
 */
@@ -109,8 +109,9 @@ void setup() {
   //SD SETUP
   if (!SD.begin(chipSelect)) {
     Serial.println("ERROR! Card failed, or not present");
-    return;
+    is_sd_card_present=false;
   }
+  is_sd_card_present=true;
 
   last_saved=millis();
 
@@ -122,13 +123,15 @@ void setup() {
   dataString+=" milliseconds, saving every ";
   dataString+=SAVE_TIME;
   dataString+=" milliseconds";
-  File dataFile = SD.open("datalog.txt", FILE_WRITE);
-  if (dataFile) {
-    dataFile.println(dataString);
-    dataFile.close();
-  }
-  else {
-    Serial.println("error opening datalog.txt");
+  if (is_sd_card_present){
+    File dataFile = SD.open("datalog.txt", FILE_WRITE);
+    if (dataFile) {
+      dataFile.println(dataString);
+      dataFile.close();
+    }
+    else {
+      Serial.println("error opening datalog.txt");
+    }
   }
 }
 
@@ -136,7 +139,9 @@ void loop() {
   server.handleClient();
   readSensors();
   if (millis()-last_saved>SAVE_TIME){
-    saveToSd();
+    if (is_sd_card_present){
+      saveToSd();
+    }
     last_saved=millis();
     reset_total_variables();
   }
