@@ -14,12 +14,13 @@
 #define BME_CS 10
 #define chipSelect D8
 
+
+///CUSTOMIZATION VARIABLES
 //checks sensors every x milliseconds
 #define SENSOR_TIME 1*1000
 //saves to SD every x milliseconds
 #define SAVE_TIME 10*60*1000
-
-
+//ssid name
 const char *ssid = "Kit Monitoraggio";
 
 
