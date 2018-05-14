@@ -16,6 +16,8 @@
 
 
 ///CUSTOMIZATION VARIABLES
+//set the threshold of light on/off in lux
+#define LIGHT_THRESHOLD 500
 //checks sensors every x milliseconds
 #define SENSOR_TIME 1*1000
 //saves to SD every x milliseconds
@@ -34,11 +36,13 @@ float temperature = 0;
 float humidity = 0;
 float pressure = 0;
 float luminosity = 0;
+bool is_light_on = false;
 
 float total_temperature = 0;
 float total_humidity = 0;
 float total_pressure = 0;
 float total_luminosity = 0;
+float total_light_on = 0;
 
 long int last_saved;
 boolean is_sd_card_present;
@@ -57,7 +61,13 @@ void handleRoot() {
   info += pressure;
   info += " hPa</p><p>Luminosita: ";
   info += luminosity;
-  info += " lux</p>";
+  info += " lux</p><p>Luce ";
+  if (is_light_on){
+    info += "Accesa";  
+  }
+  else{
+    info += "Spenta";  
+  }
   //ricarica la pagina in automatica dopo 5 secondi, così da avere le informazioni aggiornate
   //info += "<script> setTimeout(function(){location.reload();}, 5000);  </script>";
   server.send(200, "text/html", info);
@@ -69,6 +79,7 @@ void reset_total_variables(){
   total_humidity=0;
   total_pressure=0;
   total_luminosity=0;
+  total_light_on=0;
 }
 
 void setup() {
@@ -122,7 +133,8 @@ void setup() {
   dataString+=SENSOR_TIME;
   dataString+=" milliseconds, saving every ";
   dataString+=SAVE_TIME;
-  dataString+=" milliseconds";
+  dataString+=" milliseconds\n";
+  dataString+="temp °C;Hum %;Pres hPa;Lum lux;light on in seconds;";
   if (is_sd_card_present){
     File dataFile = SD.open("datalog.txt", FILE_WRITE);
     if (dataFile) {
@@ -155,6 +167,7 @@ void saveToSd(){
   dataString+=String(total_humidity/kk)+";";
   dataString+=String(total_pressure/kk)+";";
   dataString+=String(total_luminosity/kk)+";";
+  dataString+=String(total_light_on)+";";
 
   File dataFile = SD.open("datalog.txt", FILE_WRITE);
   if (dataFile) {
@@ -176,10 +189,16 @@ void readSensors() {
   tsl.getEvent(&event);
   luminosity = event.light;
 
+  //check if light is on
+  is_light_on=analogRead(0)>LIGHT_THRESHOLD;
+
   //update total variables
   total_temperature+=temperature;
   total_humidity+=humidity;
   total_pressure+=pressure;
   total_luminosity+=luminosity;
+  if(is_light_on){
+    total_light_on+=SENSOR_TIME/1000.0F;
+  }
 }
 
