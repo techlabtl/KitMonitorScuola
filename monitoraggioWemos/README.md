@@ -4,6 +4,7 @@
 * sd card (Optional)
 * BME280
 * TSL2561
+* ANALOG LIGHT SENS BREAKOUT BOARD
 
 ## PINMAP
 #### SENSORI I2C -> WEMOS
@@ -11,6 +12,10 @@
 * scl -> D1
 * vin -> 3.3V
 * gnd -> GND
+#### Analog light -> WEMOS
+* vcc -> 3.3V
+* gnd -> GND
+* out -> A0
 
 ## Descrizione
 la wemos espone una rete wifi chiamata __"Kit Monitoraggio"__
@@ -22,6 +27,7 @@ aggiungendo una shield wemos SD e una scheda SD, vengono automaticamente registr
 per risparmiare risorse viene salvata solo la media dei dati degli ultimi 10 minuti.
 
 ## Customization
+* modificando la variabile __LIGHT_THRESHOLD__ è possibile indicare la soglia sopra la quale la luce viene considerata accesa
 * modificando la variabile __SAVE_TIME__ è possibile cambiare la frequenza con cui vengono salvati i dati su sd
 * modificando la variabile __SENSOR_TIME__ è possibile cambiare la frequenza con cui vengono letti i sensori
 * modificando la variabile __*ssid__ è possibile cambiare il nome della rete wifi esposta
