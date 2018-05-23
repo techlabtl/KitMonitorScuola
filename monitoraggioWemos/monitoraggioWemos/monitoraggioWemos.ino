@@ -5,7 +5,8 @@
 #include <SPI.h>
 #include <SD.h>
 #include <Adafruit_Sensor.h>
-#include <Adafruit_BME280.h>
+#include <Adafruit_BME680.h>
+#include "Adafruit_BME680.h"
 #include <Adafruit_TSL2561_U.h>
 
 #define BME_SCK 13
@@ -26,7 +27,7 @@
 const char *ssid = "Kit Monitoraggio";
 
 
-Adafruit_BME280 bme;
+Adafruit_BME680 bme;
 
 Adafruit_TSL2561_Unified tsl = Adafruit_TSL2561_Unified(TSL2561_ADDR_FLOAT, 12345);
 
@@ -36,13 +37,13 @@ float temperature = 0;
 float humidity = 0;
 float pressure = 0;
 float luminosity = 0;
-bool is_light_on = false;
+float gas = 0;
 
 float total_temperature = 0;
 float total_humidity = 0;
 float total_pressure = 0;
 float total_luminosity = 0;
-float total_light_on = 0;
+float total_gas = 0;
 
 long int last_saved;
 boolean is_sd_card_present;
@@ -61,13 +62,9 @@ void handleRoot() {
   info += pressure;
   info += " hPa</p><p>Luminosita: ";
   info += luminosity;
-  info += " lux</p><p>Luce ";
-  if (is_light_on){
-    info += "Accesa";  
-  }
-  else{
-    info += "Spenta";  
-  }
+  info += " lux</p><p>Gas ";
+  info += gas;
+  info += " KOhms";  
   //ricarica la pagina in automatica dopo 5 secondi, così da avere le informazioni aggiornate
   //info += "<script> setTimeout(function(){location.reload();}, 5000);  </script>";
   server.send(200, "text/html", info);
@@ -79,7 +76,7 @@ void reset_total_variables(){
   total_humidity=0;
   total_pressure=0;
   total_luminosity=0;
-  total_light_on=0;
+  total_gas=0;
 }
 
 void setup() {
@@ -105,6 +102,12 @@ void setup() {
       Serial.println("Could not find a valid BME280 sensor, check wiring!");
       while (1);
   }
+   // Set up oversampling and filter initialization
+  bme.setTemperatureOversampling(BME680_OS_8X);
+  bme.setHumidityOversampling(BME680_OS_2X);
+  bme.setPressureOversampling(BME680_OS_4X);
+  bme.setIIRFilterSize(BME680_FILTER_SIZE_3);
+  bme.setGasHeater(320, 150); // 320*C for 150 ms
 
 
   //TSL SETUP
@@ -134,7 +137,7 @@ void setup() {
   dataString+=" milliseconds, saving every ";
   dataString+=SAVE_TIME;
   dataString+=" milliseconds\n";
-  dataString+="temp °C;Hum %;Pres hPa;Lum lux;light on in seconds;";
+  dataString+="temp °C;Hum %;Pres hPa;Lum lux;gas in KOhms;";
   if (is_sd_card_present){
     File dataFile = SD.open("datalog.txt", FILE_WRITE);
     if (dataFile) {
@@ -167,7 +170,7 @@ void saveToSd(){
   dataString+=String(total_humidity/kk)+";";
   dataString+=String(total_pressure/kk)+";";
   dataString+=String(total_luminosity/kk)+";";
-  dataString+=String(total_light_on)+";";
+  dataString+=String(total_gas/kk)+";";
 
   File dataFile = SD.open("datalog.txt", FILE_WRITE);
   if (dataFile) {
@@ -180,25 +183,30 @@ void saveToSd(){
 }
 
 void readSensors() {
-  temperature = bme.readTemperature();
-  humidity = bme.readHumidity();
-  pressure = bme.readPressure()/100.0F;
+  if (! bme.performReading()) {
+    Serial.println("Failed to perform reading :(");
+    temperature = 0;
+    humidity = 0;
+    pressure = 0;
+    gas = 0;
+  }
+  else{
+    temperature = bme.temperature;
+    humidity = bme.humidity;
+    pressure = bme.pressure/100.0F;
+    gas = bme.gas_resistance / 1000.0;
+  }
 
   /* Get a new sensor light event */ 
   sensors_event_t event;
   tsl.getEvent(&event);
   luminosity = event.light;
 
-  //check if light is on
-  is_light_on=analogRead(0)>LIGHT_THRESHOLD;
-
   //update total variables
   total_temperature+=temperature;
   total_humidity+=humidity;
   total_pressure+=pressure;
   total_luminosity+=luminosity;
-  if(is_light_on){
-    total_light_on+=SENSOR_TIME/1000.0F;
-  }
+  total_gas+=gas;
 }
 
