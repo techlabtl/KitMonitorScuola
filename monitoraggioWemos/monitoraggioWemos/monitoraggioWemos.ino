@@ -38,12 +38,14 @@ float humidity = 0;
 float pressure = 0;
 float luminosity = 0;
 float gas = 0;
+float sound = 0;
 
 float total_temperature = 0;
 float total_humidity = 0;
 float total_pressure = 0;
 float total_luminosity = 0;
 float total_gas = 0;
+float total_sound = 0;
 
 long int last_saved;
 boolean is_sd_card_present;
@@ -62,9 +64,11 @@ void handleRoot() {
   info += pressure;
   info += " hPa</p><p>Luminosita: ";
   info += luminosity;
-  info += " lux</p><p>Gas ";
+  info += " lux</p><p>Gas: ";
   info += gas;
-  info += " KOhms";  
+  info += " KOhms</p><p>Rumore: ";
+  info += sound;
+  info += " db";
   //ricarica la pagina in automatica dopo 5 secondi, così da avere le informazioni aggiornate
   //info += "<script> setTimeout(function(){location.reload();}, 5000);  </script>";
   server.send(200, "text/html", info);
@@ -137,7 +141,7 @@ void setup() {
   dataString+=" milliseconds, saving every ";
   dataString+=SAVE_TIME;
   dataString+=" milliseconds\n";
-  dataString+="temp °C;Hum %;Pres hPa;Lum lux;gas in KOhms;";
+  dataString+="temp °C;Hum %;Pres hPa;Lum lux;gas in KOhms;Rumo db";
   if (is_sd_card_present){
     File dataFile = SD.open("datalog.txt", FILE_WRITE);
     if (dataFile) {
@@ -171,6 +175,7 @@ void saveToSd(){
   dataString+=String(total_pressure/kk)+";";
   dataString+=String(total_luminosity/kk)+";";
   dataString+=String(total_gas/kk)+";";
+  dataString+=String(total_sound/kk)+";";
 
   File dataFile = SD.open("datalog.txt", FILE_WRITE);
   if (dataFile) {
@@ -202,11 +207,21 @@ void readSensors() {
   tsl.getEvent(&event);
   luminosity = event.light;
 
+  sound=0;
+  for (int i=0;i<100;i++){
+    float k= analogRead(0);
+    if (k>sound){
+      sound=k;
+    }
+    delay(1);
+  }
+
   //update total variables
   total_temperature+=temperature;
   total_humidity+=humidity;
   total_pressure+=pressure;
   total_luminosity+=luminosity;
   total_gas+=gas;
+  total_sound+=sound;
 }
 
