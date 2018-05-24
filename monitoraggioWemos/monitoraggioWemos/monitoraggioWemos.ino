@@ -70,7 +70,7 @@ void handleRoot() {
   info += sound;
   info += " db";
   //ricarica la pagina in automatica dopo 5 secondi, così da avere le informazioni aggiornate
-  //info += "<script> setTimeout(function(){location.reload();}, 5000);  </script>";
+  info += "<script> setTimeout(function(){location.reload();}, 5000);  </script>";
   server.send(200, "text/html", info);
 
 }
@@ -81,6 +81,7 @@ void reset_total_variables(){
   total_pressure=0;
   total_luminosity=0;
   total_gas=0;
+  total_sound=0;
 }
 
 void setup() {
