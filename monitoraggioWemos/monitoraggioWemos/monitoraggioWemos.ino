@@ -24,7 +24,7 @@
 //saves to SD every x milliseconds
 #define SAVE_TIME 10*60*1000
 //ssid name
-const char *ssid = "Kit Monitoraggio";
+const char *ssid = "Kit Monitoraggio Ambientale";
 
 
 Adafruit_BME680 bme;
@@ -47,17 +47,24 @@ float total_luminosity = 0;
 float total_gas = 0;
 float total_sound = 0;
 
+float last_data_saved[]={NULL,NULL,NULL,NULL,NULL,NULL};
+
 long int last_saved;
 boolean is_sd_card_present;
+
+//used to switch an internal resistor to fool the powerbank about current demand and keep it turned on..
+bool fool_powerbank = false;
+
 /*
    Go to http://192.168.4.1 in a web browser
 */
 
 void handleRoot() {
-  String info="<meta charset=\"utf-8\"/>";
+  String info = "<meta charset=\"utf-8\"/>";
   info += "<h1>Kit Monitoraggio</h1>";
+  info += "<h2>Instantaneo:</h2>";
   info += "<p>Temperatura: ";
-  info +=temperature;
+  info += temperature;
   info += " °C</p><p>Umidita: ";
   info += humidity;
   info += " %</p><p>Pressione: ";
@@ -68,23 +75,46 @@ void handleRoot() {
   info += gas;
   info += " KOhms</p><p>Rumore: ";
   info += sound;
-  info += " db";
+  info += " db</p>";
+  info += "<h2>Ultimi 10 minuti:</h2>";
+  if (last_data_saved[0]==NULL){
+    info += "<p>In fase di misurazione...</p>";
+  }
+  else{
+    info += "<p>Temperatura: ";
+    info += last_data_saved[0];
+    info += " °C</p><p>Umidita: ";
+    info += last_data_saved[1];
+    info += " %</p><p>Pressione: ";
+    info += last_data_saved[2];
+    info += " hPa</p><p>Luminosita: ";
+    info += last_data_saved[3];
+    info += " lux</p><p>Gas: ";
+    info += last_data_saved[4];
+    info += " KOhms</p><p>Rumore: ";
+    info += last_data_saved[5];
+    info += " db</p>";
+  }
   //ricarica la pagina in automatica dopo 5 secondi, così da avere le informazioni aggiornate
   info += "<script> setTimeout(function(){location.reload();}, 5000);  </script>";
   server.send(200, "text/html", info);
 
 }
 
-void reset_total_variables(){
-  total_temperature=0;
-  total_humidity=0;
-  total_pressure=0;
-  total_luminosity=0;
-  total_gas=0;
-  total_sound=0;
+void reset_total_variables() {
+  total_temperature = 0;
+  total_humidity = 0;
+  total_pressure = 0;
+  total_luminosity = 0;
+  total_gas = 0;
+  total_sound = 0;
 }
 
 void setup() {
+  //internal resistor to fool powerbank
+  pinMode(D3, OUTPUT);
+  pinMode(D4, INPUT_PULLUP);
+
   delay(1000);
   Serial.begin(115200);
   Serial.println();
@@ -102,12 +132,12 @@ void setup() {
   //BME SETUP
   bool status;
   // (you can also pass in a Wire library object like &Wire2)
-  status = bme.begin();  
+  status = bme.begin();
   if (!status) {
-      Serial.println("Could not find a valid BME280 sensor, check wiring!");
-      while (1);
+    Serial.println("Could not find a valid BME280 sensor, check wiring!");
+    while (1);
   }
-   // Set up oversampling and filter initialization
+  // Set up oversampling and filter initialization
   bme.setTemperatureOversampling(BME680_OS_8X);
   bme.setHumidityOversampling(BME680_OS_2X);
   bme.setPressureOversampling(BME680_OS_4X);
@@ -116,11 +146,11 @@ void setup() {
 
 
   //TSL SETUP
-  if(!tsl.begin())
+  if (!tsl.begin())
   {
     /* There was a problem detecting the TSL2561 ... check your connections */
     Serial.print("Ooops, no TSL2561 detected ... Check your wiring or I2C ADDR!");
-    while(1);
+    while (1);
   }
   tsl.enableAutoRange(true);
   tsl.setIntegrationTime(TSL2561_INTEGRATIONTIME_402MS);
@@ -128,22 +158,22 @@ void setup() {
   //SD SETUP
   if (!SD.begin(chipSelect)) {
     Serial.println("ERROR! Card failed, or not present");
-    is_sd_card_present=false;
+    is_sd_card_present = false;
   }
-  is_sd_card_present=true;
+  is_sd_card_present = true;
 
-  last_saved=millis();
+  last_saved = millis();
 
   reset_total_variables();
-  
+
   //updating log file
-  String dataString="!!! sensor reset;from now on: reading every ";
-  dataString+=SENSOR_TIME;
-  dataString+=" milliseconds, saving every ";
-  dataString+=SAVE_TIME;
-  dataString+=" milliseconds\n";
-  dataString+="temp °C;Hum %;Pres hPa;Lum lux;gas in KOhms;Rumo db";
-  if (is_sd_card_present){
+  String dataString = "!!! sensor reset;from now on: reading every ";
+  dataString += SENSOR_TIME;
+  dataString += " milliseconds, saving every ";
+  dataString += SAVE_TIME;
+  dataString += " milliseconds\n";
+  dataString += "temp °C;Hum %;Pres hPa;Lum lux;gas in KOhms;Rumo db";
+  if (is_sd_card_present) {
     File dataFile = SD.open("datalog.txt", FILE_WRITE);
     if (dataFile) {
       dataFile.println(dataString);
@@ -158,25 +188,34 @@ void setup() {
 void loop() {
   server.handleClient();
   readSensors();
-  if (millis()-last_saved>SAVE_TIME){
-    if (is_sd_card_present){
+  if (millis() - last_saved > SAVE_TIME) {
+    if (is_sd_card_present) {
       saveToSd();
     }
-    last_saved=millis();
+    last_saved = millis();
+    last_data_saved[0]=total_temperature;
+    last_data_saved[1]=total_humidity;
+    last_data_saved[2]=total_pressure;
+    last_data_saved[3]=total_luminosity;
+    last_data_saved[4]=total_gas;
+    last_data_saved[5]=total_sound;
     reset_total_variables();
   }
   delay(SENSOR_TIME);
+  fool_powerbank = !fool_powerbank;
+  digitalWrite(D3, fool_powerbank);
+
 }
 
-void saveToSd(){
+void saveToSd() {
   String dataString = "";
-  float kk = float(SAVE_TIME)/float(SENSOR_TIME);
-  dataString+=String(total_temperature/kk)+";";
-  dataString+=String(total_humidity/kk)+";";
-  dataString+=String(total_pressure/kk)+";";
-  dataString+=String(total_luminosity/kk)+";";
-  dataString+=String(total_gas/kk)+";";
-  dataString+=String(total_sound/kk)+";";
+  float kk = float(SAVE_TIME) / float(SENSOR_TIME);
+  dataString += String(total_temperature / kk) + ";";
+  dataString += String(total_humidity / kk) + ";";
+  dataString += String(total_pressure / kk) + ";";
+  dataString += String(total_luminosity / kk) + ";";
+  dataString += String(total_gas / kk) + ";";
+  dataString += String(total_sound / kk) + ";";
 
   File dataFile = SD.open("datalog.txt", FILE_WRITE);
   if (dataFile) {
@@ -196,33 +235,33 @@ void readSensors() {
     pressure = 0;
     gas = 0;
   }
-  else{
+  else {
     temperature = bme.temperature;
     humidity = bme.humidity;
-    pressure = bme.pressure/100.0F;
+    pressure = bme.pressure / 100.0F;
     gas = bme.gas_resistance / 1000.0;
   }
 
-  /* Get a new sensor light event */ 
+  /* Get a new sensor light event */
   sensors_event_t event;
   tsl.getEvent(&event);
   luminosity = event.light;
 
-  sound=0;
-  for (int i=0;i<100;i++){
-    float k= analogRead(0);
-    if (k>sound){
-      sound=k;
+  sound = 0;
+  for (int i = 0; i < 100; i++) {
+    float k = analogRead(0);
+    if (k > sound) {
+      sound = k;
     }
     delay(1);
   }
 
   //update total variables
-  total_temperature+=temperature;
-  total_humidity+=humidity;
-  total_pressure+=pressure;
-  total_luminosity+=luminosity;
-  total_gas+=gas;
-  total_sound+=sound;
+  total_temperature += temperature;
+  total_humidity += humidity;
+  total_pressure += pressure;
+  total_luminosity += luminosity;
+  total_gas += gas;
+  total_sound += sound;
 }
 
