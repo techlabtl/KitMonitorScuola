@@ -24,7 +24,7 @@
 //saves to SD every x milliseconds
 #define SAVE_TIME 10*60*1000
 //ssid name
-const char *ssid = "Kit Monitoraggio Ambientale";
+const char *ssid = "Kit Monitoraggio";
 
 
 Adafruit_BME680 bme;
@@ -193,12 +193,13 @@ void loop() {
       saveToSd();
     }
     last_saved = millis();
-    last_data_saved[0]=total_temperature;
-    last_data_saved[1]=total_humidity;
-    last_data_saved[2]=total_pressure;
-    last_data_saved[3]=total_luminosity;
-    last_data_saved[4]=total_gas;
-    last_data_saved[5]=total_sound;
+    float kk = float(SAVE_TIME) / float(SENSOR_TIME);
+    last_data_saved[0]=total_temperature/kk;
+    last_data_saved[1]=total_humidity/kk;
+    last_data_saved[2]=total_pressure/kk;
+    last_data_saved[3]=total_luminosity/kk;
+    last_data_saved[4]=total_gas/kk;
+    last_data_saved[5]=total_sound/kk;
     reset_total_variables();
   }
   delay(SENSOR_TIME);
