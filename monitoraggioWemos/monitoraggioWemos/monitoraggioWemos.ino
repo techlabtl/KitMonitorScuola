@@ -194,6 +194,7 @@ void loop() {
     }
     last_saved = millis();
     float kk = float(SAVE_TIME) / float(SENSOR_TIME);
+    kk=ceil(kk/2.0f);
     last_data_saved[0]=total_temperature/kk;
     last_data_saved[1]=total_humidity/kk;
     last_data_saved[2]=total_pressure/kk;
@@ -211,6 +212,7 @@ void loop() {
 void saveToSd() {
   String dataString = "";
   float kk = float(SAVE_TIME) / float(SENSOR_TIME);
+  kk=ceil(kk/2.0f);
   dataString += String(total_temperature / kk) + ";";
   dataString += String(total_humidity / kk) + ";";
   dataString += String(total_pressure / kk) + ";";
