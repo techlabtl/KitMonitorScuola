@@ -1,10 +1,10 @@
-##KIT CONSUMARE DI MENO versione2018
+## KIT CONSUMARE DI MENO versione2018
 
 
 ![Screenshoot](./v2-2018/tutorial/img/1.jpg)
 
 
-##COMPONENTI
+## COMPONENTI
 * Wemos
 * MicroSD Shield (Optional)
 * sd card (Optional)
