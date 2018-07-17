@@ -8,7 +8,7 @@
 * Wemos
 * MicroSD Shield (Optional)
 * sd card (Optional)
-* BME280
+* BME680
 * TSL2561
 * ANALOG LIGHT SENS BREAKOUT BOARD
 
