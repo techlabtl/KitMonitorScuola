@@ -21,8 +21,14 @@
 #define LIGHT_THRESHOLD 500
 //checks sensors every x milliseconds
 #define SENSOR_TIME 1*1000
+
 //saves to SD every x milliseconds
-#define SAVE_TIME 10*60*1000
+#define SAVE_TIME_SMALL 10*60*1000
+//saves to SD every x milliseconds
+#define SAVE_TIME_MID 60*60*1000
+//saves to SD every x milliseconds
+#define SAVE_TIME_LONG 5*60*60*1000
+
 //ssid name
 const char *ssid = "Kit Monitoraggio";
 
@@ -40,16 +46,18 @@ float luminosity = 0;
 float gas = 0;
 float sound = 0;
 
-float total_temperature = 0;
-float total_humidity = 0;
-float total_pressure = 0;
-float total_luminosity = 0;
-float total_gas = 0;
-float total_sound = 0;
+float total_small_time[]={0,0,0,0,0,0};
+float total_mid_time[]={0,0,0,0,0,0};
+float total_long_time[]={0,0,0,0,0,0};
 
-float last_data_saved[]={NULL,NULL,NULL,NULL,NULL,NULL};
+float last_data_saved_small[]={NULL,NULL,NULL,NULL,NULL,NULL};
+float last_data_saved_mid[]={NULL,NULL,NULL,NULL,NULL,NULL};
+float last_data_saved_long[]={NULL,NULL,NULL,NULL,NULL,NULL};
 
-long int last_saved;
+long int last_saved_small;
+long int last_saved_mid;
+long int last_saved_long;
+
 boolean is_sd_card_present;
 
 //used to switch an internal resistor to fool the powerbank about current demand and keep it turned on..
@@ -61,6 +69,9 @@ bool fool_powerbank = false;
 
 void handleRoot() {
   String info = "<meta charset=\"utf-8\"/>";
+  if (!is_sd_card_present){
+    info += "ATTENZIONE! SD CARD NON RILEVATA";
+  }
   info += "<h1>Kit Monitoraggio</h1>";
   info += "<h2>Instantaneo:</h2>";
   info += "<p>Temperatura: ";
@@ -76,38 +87,70 @@ void handleRoot() {
   info += " KOhms</p><p>Rumore: ";
   info += sound;
   info += " db</p>";
+  
   info += "<h2>Ultimi 10 minuti:</h2>";
-  if (last_data_saved[0]==NULL){
+  if (last_data_saved_small[0]==NULL){
     info += "<p>In fase di misurazione...</p>";
   }
   else{
     info += "<p>Temperatura: ";
-    info += last_data_saved[0];
+    info += last_data_saved_small[0];
     info += " °C</p><p>Umidita: ";
-    info += last_data_saved[1];
+    info += last_data_saved_small[1];
     info += " %</p><p>Pressione: ";
-    info += last_data_saved[2];
+    info += last_data_saved_small[2];
     info += " hPa</p><p>Luminosita: ";
-    info += last_data_saved[3];
+    info += last_data_saved_small[3];
     info += " lux</p><p>Gas: ";
-    info += last_data_saved[4];
+    info += last_data_saved_small[4];
     info += " KOhms</p><p>Rumore: ";
-    info += last_data_saved[5];
+    info += last_data_saved_small[5];
+    info += " db</p>";
+  }
+
+  info += "<h2>Ultimi 60 minuti:</h2>";
+  if (last_data_saved_mid[0]==NULL){
+    info += "<p>In fase di misurazione...</p>";
+  }
+  else{
+    info += "<p>Temperatura: ";
+    info += last_data_saved_mid[0];
+    info += " °C</p><p>Umidita: ";
+    info += last_data_saved_mid[1];
+    info += " %</p><p>Pressione: ";
+    info += last_data_saved_mid[2];
+    info += " hPa</p><p>Luminosita: ";
+    info += last_data_saved_mid[3];
+    info += " lux</p><p>Gas: ";
+    info += last_data_saved_mid[4];
+    info += " KOhms</p><p>Rumore: ";
+    info += last_data_saved_mid[5];
+    info += " db</p>";
+  }
+
+  info += "<h2>Ultime 5 ore:</h2>";
+  if (last_data_saved_long[0]==NULL){
+    info += "<p>In fase di misurazione...</p>";
+  }
+  else{
+    info += "<p>Temperatura: ";
+    info += last_data_saved_long[0];
+    info += " °C</p><p>Umidita: ";
+    info += last_data_saved_long[1];
+    info += " %</p><p>Pressione: ";
+    info += last_data_saved_long[2];
+    info += " hPa</p><p>Luminosita: ";
+    info += last_data_saved_long[3];
+    info += " lux</p><p>Gas: ";
+    info += last_data_saved_long[4];
+    info += " KOhms</p><p>Rumore: ";
+    info += last_data_saved_long[5];
     info += " db</p>";
   }
   //ricarica la pagina in automatica dopo 5 secondi, così da avere le informazioni aggiornate
   info += "<script> setTimeout(function(){location.reload();}, 5000);  </script>";
   server.send(200, "text/html", info);
 
-}
-
-void reset_total_variables() {
-  total_temperature = 0;
-  total_humidity = 0;
-  total_pressure = 0;
-  total_luminosity = 0;
-  total_gas = 0;
-  total_sound = 0;
 }
 
 void setup() {
@@ -162,15 +205,19 @@ void setup() {
   }
   is_sd_card_present = true;
 
-  last_saved = millis();
+  last_saved_small = millis();
 
-  reset_total_variables();
+  for (int i=0;i<(sizeof(total_small_time)/sizeof(float));i++){
+    total_small_time[i]=0;
+    total_mid_time[i]=0;
+    total_long_time[i]=0;
+  }
 
   //updating log file
   String dataString = "!!! sensor reset;from now on: reading every ";
   dataString += SENSOR_TIME;
   dataString += " milliseconds, saving every ";
-  dataString += SAVE_TIME;
+  dataString += SAVE_TIME_SMALL;
   dataString += " milliseconds\n";
   dataString += "temp °C;Hum %;Pres hPa;Lum lux;gas in KOhms;Rumo db";
   if (is_sd_card_present) {
@@ -188,21 +235,43 @@ void setup() {
 void loop() {
   server.handleClient();
   readSensors();
-  if (millis() - last_saved > SAVE_TIME) {
+
+  //update small medium
+  if (millis() - last_saved_small > SAVE_TIME_SMALL) {
     if (is_sd_card_present) {
       saveToSd();
     }
-    last_saved = millis();
-    float kk = float(SAVE_TIME) / float(SENSOR_TIME);
+    last_saved_small = millis();
+    float kk = float(SAVE_TIME_SMALL) / float(SENSOR_TIME);
     kk=ceil(kk/2.0f);
-    last_data_saved[0]=total_temperature/kk;
-    last_data_saved[1]=total_humidity/kk;
-    last_data_saved[2]=total_pressure/kk;
-    last_data_saved[3]=total_luminosity/kk;
-    last_data_saved[4]=total_gas/kk;
-    last_data_saved[5]=total_sound/kk;
-    reset_total_variables();
+    for (int i=0;i<(sizeof(total_small_time)/sizeof(float));i++){
+      last_data_saved_small[i]=total_small_time[i]/kk;
+      total_small_time[i]=0;
+    }
   }
+
+  //update mid medium
+  if (millis() - last_saved_mid > SAVE_TIME_MID) {
+    last_saved_mid = millis();
+    float kk = float(SAVE_TIME_MID) / float(SENSOR_TIME);
+    kk=ceil(kk/2.0f);
+    for (int i=0;i<(sizeof(total_mid_time)/sizeof(float));i++){
+      last_data_saved_mid[i]=total_mid_time[i]/kk;
+      total_mid_time[i]=0;
+    }
+  }
+  
+  //update long medium
+  if (millis() - last_saved_long > SAVE_TIME_LONG) {
+    last_saved_long = millis();
+    float kk = float(SAVE_TIME_LONG) / float(SENSOR_TIME);
+    kk=ceil(kk/2.0f);
+    for (int i=0;i<(sizeof(total_long_time)/sizeof(float));i++){
+      last_data_saved_long[i]=total_long_time[i]/kk;
+      total_long_time[i]=0;
+    }
+  }
+
   delay(SENSOR_TIME);
   fool_powerbank = !fool_powerbank;
   digitalWrite(D3, fool_powerbank);
@@ -211,14 +280,11 @@ void loop() {
 
 void saveToSd() {
   String dataString = "";
-  float kk = float(SAVE_TIME) / float(SENSOR_TIME);
+  float kk = float(SAVE_TIME_SMALL) / float(SENSOR_TIME);
   kk=ceil(kk/2.0f);
-  dataString += String(total_temperature / kk) + ";";
-  dataString += String(total_humidity / kk) + ";";
-  dataString += String(total_pressure / kk) + ";";
-  dataString += String(total_luminosity / kk) + ";";
-  dataString += String(total_gas / kk) + ";";
-  dataString += String(total_sound / kk) + ";";
+  for (int i=0;i<(sizeof(total_small_time)/sizeof(float));i++){
+    dataString += String(total_small_time[i] / kk) + ";"; 
+  }
 
   File dataFile = SD.open("datalog.txt", FILE_WRITE);
   if (dataFile) {
@@ -260,11 +326,25 @@ void readSensors() {
   }
 
   //update total variables
-  total_temperature += temperature;
-  total_humidity += humidity;
-  total_pressure += pressure;
-  total_luminosity += luminosity;
-  total_gas += gas;
-  total_sound += sound;
+  total_small_time[0] += temperature;
+  total_small_time[1] += humidity;
+  total_small_time[2] += pressure;
+  total_small_time[3] += luminosity;
+  total_small_time[4] += gas;
+  total_small_time[5] += sound;
+
+  total_mid_time[0] += temperature;
+  total_mid_time[1] += humidity;
+  total_mid_time[2] += pressure;
+  total_mid_time[3] += luminosity;
+  total_mid_time[4] += gas;
+  total_mid_time[5] += sound;
+
+  total_long_time[0] += temperature;
+  total_long_time[1] += humidity;
+  total_long_time[2] += pressure;
+  total_long_time[3] += luminosity;
+  total_long_time[4] += gas;
+  total_long_time[5] += sound;
 }
 
