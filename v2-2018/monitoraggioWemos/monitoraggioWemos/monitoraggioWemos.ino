@@ -67,6 +67,29 @@ bool fool_powerbank = false;
    Go to http://192.168.4.1 in a web browser
 */
 
+String encodeGasMeasure(float kOhms){
+  if (kOhms>360){
+    return "Ottima";
+  }
+  if (kOhms>180){
+    return "Molto Buona";
+  }
+  if (kOhms>90){
+    return "Buona";
+  }
+  if (kOhms>45){
+    return "Non Buona";
+  }
+  if (kOhms>22){
+    return "Cattiva";
+  }
+  if (kOhms>11){
+    return "Pessima";
+  }
+  return "Mortale";
+}
+
+
 void handleRoot() {
   String info = "<meta charset=\"utf-8\"/>";
   if (!is_sd_card_present){
@@ -82,9 +105,9 @@ void handleRoot() {
   info += pressure;
   info += " hPa</p><p>Luminosita: ";
   info += luminosity;
-  info += " lux</p><p>Gas: ";
-  info += gas;
-  info += " KOhms</p><p>Rumore: ";
+  info += " lux</p><p>Qualita' dell'Aria: ";
+  info += encodeGasMeasure(gas)+"("+gas;
+  info += " KOhms)</p><p>Rumore: ";
   info += sound;
   info += " db</p>";
   
@@ -101,9 +124,9 @@ void handleRoot() {
     info += last_data_saved_small[2];
     info += " hPa</p><p>Luminosita: ";
     info += last_data_saved_small[3];
-    info += " lux</p><p>Gas: ";
-    info += last_data_saved_small[4];
-    info += " KOhms</p><p>Rumore: ";
+    info += " lux</p><p>Qualita' dell'Aria: ";
+    info += encodeGasMeasure(last_data_saved_small[4])+"("+last_data_saved_small[4];
+    info += " KOhms)</p><p>Rumore: ";
     info += last_data_saved_small[5];
     info += " db</p>";
   }
@@ -121,9 +144,9 @@ void handleRoot() {
     info += last_data_saved_mid[2];
     info += " hPa</p><p>Luminosita: ";
     info += last_data_saved_mid[3];
-    info += " lux</p><p>Gas: ";
-    info += last_data_saved_mid[4];
-    info += " KOhms</p><p>Rumore: ";
+    info += " lux</p><p>Qualita' dell'Aria: ";
+    info += encodeGasMeasure(last_data_saved_mid[4])+"("+last_data_saved_mid[4];
+    info += " KOhms)</p><p>Rumore: ";
     info += last_data_saved_mid[5];
     info += " db</p>";
   }
@@ -142,8 +165,8 @@ void handleRoot() {
     info += " hPa</p><p>Luminosita: ";
     info += last_data_saved_long[3];
     info += " lux</p><p>Gas: ";
-    info += last_data_saved_long[4];
-    info += " KOhms</p><p>Rumore: ";
+    info += encodeGasMeasure(last_data_saved_long[4])+"("+last_data_saved_long[4];
+    info += " KOhms)</p><p>Rumore: ";
     info += last_data_saved_long[5];
     info += " db</p>";
   }
