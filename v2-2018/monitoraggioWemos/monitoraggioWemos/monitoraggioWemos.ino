@@ -164,7 +164,7 @@ void handleRoot() {
     info += last_data_saved_long[2];
     info += " hPa</p><p>Luminosita: ";
     info += last_data_saved_long[3];
-    info += " lux</p><p>Gas: ";
+    info += " lux</p><p>Qualita' dell'Aria: ";
     info += encodeGasMeasure(last_data_saved_long[4])+"("+last_data_saved_long[4];
     info += " KOhms)</p><p>Rumore: ";
     info += last_data_saved_long[5];
